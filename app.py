@@ -9,20 +9,18 @@ import os
 st.set_page_config(page_title="Multi-Objective Optimization", layout="wide")
 
 st.title("🚍 Multi-Objective Optimization using ACO")
-st.write("Objectives: **Minimize Distance and Fare only**")
+st.write("Objectives: **Minimize Distance and Fare**")
 
 # =========================
 # AUTO LOAD DATASET
 # =========================
-DATA_PATH = "delhi_metro_updated.csv"
+DATA_PATH = "dataset.csv"
 
 if not os.path.exists(DATA_PATH):
     st.error("dataset.csv not found. Please place it in the project folder.")
     st.stop()
 
 data = pd.read_csv(DATA_PATH)
-
-# Standardize column names
 data.columns = data.columns.str.lower().str.replace(" ", "_")
 
 required_cols = ["distance_km", "fare", "cost_per_passenger", "passengers"]
@@ -65,10 +63,7 @@ class ACO_MultiObjective:
         self.evaporation = evaporation
 
     def fitness(self, i):
-        return (
-            self.w_distance * self.distance[i] +
-            self.w_fare * self.fare[i]
-        )
+        return self.w_distance * self.distance[i] + self.w_fare * self.fare[i]
 
     def run(self):
         best_index = 0
@@ -92,6 +87,27 @@ class ACO_MultiObjective:
         return best_index, best_score, convergence
 
 # =========================
+# PARETO FRONT FUNCTION
+# =========================
+def pareto_front(distances, fares):
+    pareto = []
+    for i in range(len(distances)):
+        dominated = False
+        for j in range(len(distances)):
+            if (
+                distances[j] <= distances[i] and
+                fares[j] <= fares[i] and
+                (distances[j] < distances[i] or fares[j] < fares[i])
+            ):
+                dominated = True
+                break
+        if not dominated:
+            pareto.append(i)
+    return pareto
+
+pareto_indices = pareto_front(distance, fare)
+
+# =========================
 # RUN OPTIMIZATION
 # =========================
 if st.button("▶ Run Optimization"):
@@ -106,17 +122,49 @@ if st.button("▶ Run Optimization"):
 
     st.success("Optimization Completed ✅")
 
+    # =========================
+    # METRICS
+    # =========================
     col1, col2, col3 = st.columns(3)
     col1.metric("Distance (km)", distance[best_idx])
     col2.metric("Fare", fare[best_idx])
     col3.metric("Fitness Score", round(best_score, 3))
 
-    st.subheader("📊 Additional Information (Not Optimized)")
+    st.subheader("📊 Additional Information")
     st.write("Cost per Passenger:", data.loc[best_idx, "cost_per_passenger"])
     st.write("Passengers:", data.loc[best_idx, "passengers"])
 
+    # =========================
+    # CONVERGENCE CURVE
+    # =========================
     st.subheader("📉 Convergence Curve")
     st.line_chart(convergence)
 
+    # =========================
+    # PARETO FRONT PLOT
+    # =========================
+    st.subheader("📈 Pareto Front (Distance vs Fare)")
+
+    plot_df = pd.DataFrame({
+        "Distance": distance,
+        "Fare": fare,
+        "Type": [
+            "Pareto Optimal" if i in pareto_indices else "Dominated"
+            for i in range(len(distance))
+        ]
+    })
+
+    st.scatter_chart(
+        plot_df,
+        x="Distance",
+        y="Fare",
+        color="Type"
+    )
+
+    st.info("Blue points represent Pareto-optimal solutions (no objective can be improved without worsening the other).")
+
+    # =========================
+    # DATA PREVIEW
+    # =========================
     st.subheader("📄 Dataset Preview")
     st.dataframe(data.head())
