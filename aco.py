@@ -17,8 +17,8 @@ fare = data["fare_rs"].values
 # =========================
 class ACO_MultiObjective:
     def __init__(self, distance, fare,
-                 ants=20, iterations=50,
-                 w_distance=0.5, w_fare=0.5,
+                 ants=30, iterations=100,
+                 w_distance=5.0, w_fare=0.5,
                  evaporation=0.5):
 
         self.distance = distance
