@@ -145,34 +145,34 @@ if st.button("▶ Run Optimization"):
     # =========================
     import altair as alt
 
-st.subheader("📈 Pareto Front (Distance vs Fare)")
+    st.subheader("📈 Pareto Front (Distance vs Fare)")
 
-plot_df = pd.DataFrame({
-    "Distance": distance,
-    "Fare": fare,
-    "Pareto": [
-        "Pareto-optimal" if i in pareto_indices else "Dominated"
-        for i in range(len(distance))
-    ]
-})
+    plot_df = pd.DataFrame({
+        "Distance": distance,
+        "Fare": fare,
+        "Pareto": [
+            "Pareto-optimal" if i in pareto_indices else "Dominated"
+            for i in range(len(distance))
+        ]
+    })
 
-chart = alt.Chart(plot_df).mark_circle(size=80).encode(
-    x="Distance",
-    y="Fare",
-    color=alt.Color(
-        "Pareto",
-        scale=alt.Scale(
-            domain=["Pareto-optimal", "Dominated"],
-            range=["red", "lightgray"]
+    chart = alt.Chart(plot_df).mark_circle(size=80).encode(
+        x="Distance",
+        y="Fare",
+        color=alt.Color(
+            "Pareto",
+            scale=alt.Scale(
+                domain=["Pareto-optimal", "Dominated"],
+                range=["red", "lightgray"]
+            ),
+            legend=alt.Legend(title="Solution Type")
         ),
-        legend=alt.Legend(title="Solution Type")
-    ),
-    tooltip=["Distance", "Fare", "Pareto"]
-)
+        tooltip=["Distance", "Fare", "Pareto"]
+    )
 
-st.altair_chart(chart, use_container_width=True)
+    st.altair_chart(chart, use_container_width=True)
 
-st.info("🔴 Red points represent Pareto-optimal solutions.")
+    st.info("🔴 Red points represent Pareto-optimal solutions.")
 
     # =========================
     # DATA PREVIEW
