@@ -14,7 +14,7 @@ st.write("Objectives: **Minimize Distance and Fare**")
 # =========================
 # AUTO LOAD DATASET
 # =========================
-DATA_PATH = "dataset.csv"
+DATA_PATH = "delhi_metro_updated.csv"
 
 if not os.path.exists(DATA_PATH):
     st.error("dataset.csv not found. Please place it in the project folder.")
