@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import os
 
 # =========================
 # PAGE CONFIG
@@ -11,14 +12,15 @@ st.title("🚍 Multi-Objective Optimization using ACO")
 st.write("Objectives: **Minimize Distance and Fare only**")
 
 # =========================
-# DATA UPLOAD
+# AUTO LOAD DATASET
 # =========================
-uploaded_file = st.file_uploader("Upload CSV Dataset", type=["csv"])
+DATA_PATH = "dataset.csv"
 
-if uploaded_file is None:
+if not os.path.exists(DATA_PATH):
+    st.error("dataset.csv not found. Please place it in the project folder.")
     st.stop()
 
-data = pd.read_csv(uploaded_file)
+data = pd.read_csv(DATA_PATH)
 
 # Standardize column names
 data.columns = data.columns.str.lower().str.replace(" ", "_")
