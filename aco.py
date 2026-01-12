@@ -86,8 +86,6 @@ best_idx, best_score, convergence = aco.run()
 # OUTPUT RESULT
 # =========================
 print("Best Route Found:")
-print("Source:", data.loc[best_idx, "source_station"])
-print("Destination:", data.loc[best_idx, "destination_station"])
 print("Distance (km):", distance[best_idx])
 print("Fare (Rs):", fare[best_idx])
 print("Final Fitness Score:", best_score)
