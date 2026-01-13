@@ -122,11 +122,13 @@ if st.button("▶ Run Optimization"):
 
     st.success("Optimization Completed ✅")
 
-     # =========================
-    # DATA PREVIEW
-    # =========================
-    st.subheader("📄 Dataset Preview")
-    st.dataframe(data.head())
+  # =====================================================
+# Dataset Preview
+# =====================================================
+st.subheader("🗂 Dataset Preview")
+
+with st.expander("Show dataset sample"):
+    st.dataframe(data.head(10))
 
     # =========================
     # METRICS
@@ -179,5 +181,42 @@ if st.button("▶ Run Optimization"):
     st.altair_chart(chart, use_container_width=True)
 
     st.info("🔴 Red points represent Pareto-optimal solutions.")
+
+# =====================================================
+# Strengths & Limitations
+# =====================================================
+st.subheader("⚖️ Strengths vs Limitations of ACO")
+
+colS, colL = st.columns(2)
+
+with colS:
+    st.markdown("""
+    **Strengths**
+    - Naturally suited for combinatorial problems
+    - Strong exploration capability
+    - Robust to local optima
+    - Intuitive biological inspiration
+    """)
+
+with colL:
+    st.markdown("""
+    **Limitations**
+    - Slower convergence than PSO
+    - Risk of pheromone stagnation
+    - Sensitive to evaporation and colony size
+    """)
+
+# =====================================================
+# Conclusion
+# =====================================================
+st.subheader("✅ Conclusion")
+
+st.markdown("""
+The MOACO dashboard demonstrates how swarm intelligence  
+can effectively address **multi-objective optimization** in urban transportation.
+
+By visualizing Pareto fronts, convergence behavior, and efficiency metrics,  
+this system enhances interpretability and supports informed decision-making.
+""")
 
    
