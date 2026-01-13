@@ -41,8 +41,8 @@ iterations = st.sidebar.slider("Iterations", 10, 300, 100)
 evaporation = st.sidebar.slider("Evaporation Rate", 0.1, 0.9, 0.5)
 
 st.sidebar.subheader("Objective Weights")
-w_distance = st.sidebar.slider("Distance Weight", 0.0, 1.0, 0.6)
-w_fare = st.sidebar.slider("Fare Weight", 0.0, 1.0, 0.4)
+w_distance = st.sidebar.slider("Distance (KM)", 0.0, 1.0, 0.6)
+w_fare = st.sidebar.slider("Fare ", 0.0, 1.0, 0.4)
 
 if w_distance + w_fare == 0:
     st.sidebar.error("At least one weight must be > 0")
