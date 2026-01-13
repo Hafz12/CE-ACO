@@ -122,13 +122,13 @@ if st.button("▶ Run Optimization"):
 
     st.success("Optimization Completed ✅")
 
-  # =====================================================
+# =====================================================
 # Dataset Preview
 # =====================================================
-st.subheader("🗂 Dataset Preview")
+    st.subheader("🗂 Dataset Preview")
 
-with st.expander("Show dataset sample"):
-    st.dataframe(data.head(10))
+    with st.expander("Show dataset sample"):
+        st.dataframe(data.head(10))
 
     # =========================
     # METRICS
