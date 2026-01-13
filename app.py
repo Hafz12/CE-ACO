@@ -122,6 +122,12 @@ if st.button("▶ Run Optimization"):
 
     st.success("Optimization Completed ✅")
 
+     # =========================
+    # DATA PREVIEW
+    # =========================
+    st.subheader("📄 Dataset Preview")
+    st.dataframe(data.head())
+
     # =========================
     # METRICS
     # =========================
@@ -174,8 +180,4 @@ if st.button("▶ Run Optimization"):
 
     st.info("🔴 Red points represent Pareto-optimal solutions.")
 
-    # =========================
-    # DATA PREVIEW
-    # =========================
-    st.subheader("📄 Dataset Preview")
-    st.dataframe(data.head())
+   
